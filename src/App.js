@@ -1,10 +1,28 @@
 import logo from './logo.png';
 import './App.css';
-import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie, Line } from 'react-chartjs-2'; // Thêm Line
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale, // Cần thiết cho Line Chart
+  LinearScale,   // Cần thiết cho Line Chart
+  PointElement,  // Cần thiết cho Line Chart
+  LineElement,   // Cần thiết cho Line Chart
+} from 'chart.js';
 import { useEffect, useState } from 'react';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+// Đăng ký các thành phần cần thiết cho cả Pie và Line Chart
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement
+);
 
 // Tài khoản admin demo (CHỈ DÙNG CHO DEMO)
 const ADMIN = {
@@ -26,13 +44,34 @@ function App() {
   // Dashboard state
   const [tuanChon, setTuanChon] = useState('Tất cả');
 
-  // Dữ liệu biểu đồ
+  // Dữ liệu biểu đồ Pie (Người dùng & Đơn hàng)
   const duLieu = {
     'Tuần 4': { tai: 11, hoatdong: 11, free: 11, pay: 0, don: { tbngay: 0, tong: 0 } },
     'Tuần 5': { tai: 12, hoatdong: 10, free: 7, pay: 3, don: { tbngay: 2, tong: 10 } },
-    'Tuần 6': { tai: 19, hoatdong: 15, free: 14, pay: 1, don: { tbngay: 4, tong: 7 } },
+    'Tuần 6': { tai: 19, hoatdong: 15, free: 14, pay: 1, don: { tbngay: 1, tong: 7 } },
     'Tuần 7': { tai: 10, hoatdong: 10, free: 6, pay: 4, don: { tbngay: 5, tong: 35 } },
     'Tuần 8': { tai: 10, hoatdong: 8, free: 8, pay: 0, don: { tbngay: 5, tong: 35 } },
+  };
+
+  // Dữ liệu doanh thu Line Chart (dựa trên ảnh)
+  // Giả định thứ tự cột trong ảnh là Tuần 5, Tuần 6, Tuần 7, Tuần 8
+  const doanhThuTheoTuan = {
+    'Tuần 5': {
+      hoaHong: 295198, // 295.198 đ
+      premium: 87000,  // 87.000 đ
+    },
+    'Tuần 6': {
+      hoaHong: 181020, // 181.020 đ
+      premium: 29000,  // 29.000 đ
+    },
+    'Tuần 7': {
+      hoaHong: 150010, // 150.010 đ
+      premium: 116000, // 116.000 đ
+    },
+    'Tuần 8': {
+      hoaHong: 126000, // 126.000 đ
+      premium: 0,      // 0 đ
+    },
   };
 
   const tongHop = (arr) =>
@@ -71,12 +110,65 @@ function App() {
         };
   };
 
+  // Logic lấy dữ liệu cho Line Chart
+  const layDuLieuDoanhThu = () => {
+    const labels = Object.keys(doanhThuTheoTuan); // ['Tuần 5', 'Tuần 6', 'Tuần 7', 'Tuần 8']
+    const hoaHongData = labels.map(tuan => doanhThuTheoTuan[tuan].hoaHong);
+    const premiumData = labels.map(tuan => doanhThuTheoTuan[tuan].premium);
+
+    return {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Hoa hồng (Commission 7%)',
+          data: hoaHongData,
+          borderColor: '#6666FF',
+          backgroundColor: 'rgba(102, 102, 255, 0.2)',
+          fill: true,
+          tension: 0.3,
+        },
+        {
+          label: 'Doanh số khóa học Premium',
+          data: premiumData,
+          borderColor: '#A3A3FF',
+          backgroundColor: 'rgba(102, 102, 255, 0.2)',
+          fill: true,
+          tension: 0.3,
+        },
+      ],
+    };
+  };
+
+  // Options cho Pie Chart
   const tuyChon = {
     plugins: {
       legend: { position: 'bottom' },
     },
     maintainAspectRatio: false,
   };
+  
+  // Options cho Line Chart
+  const tuyChonLine = {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      title: { display: false, text: 'Doanh thu theo Tuần' },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Giá trị (VNĐ)' },
+        // Định dạng tiền tệ cho trục Y
+        ticks: {
+          callback: function(value, index, ticks) {
+            return value.toLocaleString('vi-VN') + ' đ';
+          }
+        }
+      },
+    },
+    maintainAspectRatio: false,
+  };
+
 
   // Xử lý login
   const handleLogin = (e) => {
@@ -151,7 +243,7 @@ function App() {
           </form>
 
           <div className="login-note">
-            <small>Demo account: <strong>admin@eatzie.test</strong> / <strong>Admin@123</strong></small>
+            <small>Demo account: <strong>{ADMIN.email}</strong> / <strong>{ADMIN.password}</strong></small>
           </div>
         </div>
       </div>
@@ -190,6 +282,7 @@ function App() {
       </div>
 
       <div className="bieu-do-container">
+        {/* PIE CHART 1: Người dùng */}
         <div className="bieu-do-card">
           <h2>Người dùng</h2>
           <div className="bieu-do">
@@ -197,10 +290,19 @@ function App() {
           </div>
         </div>
 
+        {/* PIE CHART 2: Đơn hàng */}
         <div className="bieu-do-card">
           <h2>Đơn hàng</h2>
           <div className="bieu-do">
             <Pie data={layDuLieuBieuDo('don')} options={tuyChon} />
+          </div>
+        </div>
+
+        {/* LINE CHART MỚI: Doanh thu */}
+        <div className="bieu-do-card full-width">
+          <h2>📊 Hoa hồng & Doanh số khóa học Premium (VNĐ)</h2>
+          <div className="bieu-do">
+            <Line data={layDuLieuDoanhThu()} options={tuyChonLine} />
           </div>
         </div>
       </div>

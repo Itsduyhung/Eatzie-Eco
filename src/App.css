@@ -206,6 +206,14 @@ body {
   border-radius: 18px;
   box-shadow: 0 6px 22px rgba(15, 15, 40, 0.04);
   padding: 18px;
+  margin-bottom: 20px; /* Thêm margin dưới cho card */
+}
+
+/* Dành cho Line Chart để chiếm hết chiều ngang */
+.bieu-do-card.full-width {
+  width: 95%; 
+  max-width: 1160px; /* Tùy chỉnh max-width nếu cần */
+  min-width: unset;
 }
 
 .bieu-do-card h2 {
@@ -222,6 +230,7 @@ body {
 /* responsiveness */
 @media (max-width: 880px) {
   .bieu-do-card { width: 100%; }
+  .bieu-do-card.full-width { width: 100%; } /* Đảm bảo nó cũng 100% trên mobile */
   .header-bar { padding: 0 14px; width: calc(100% - 28px); }
   .tuy-chon-hang { padding: 10px 14px; width: calc(100% - 28px); }
 }

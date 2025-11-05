@@ -1,0 +1,227 @@
+/* chung */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  color: #222;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ===================== Login Page ===================== */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #fbfdff 0%, #ffffff 100%);
+  padding: 24px;
+}
+
+.login-card {
+  width: 360px;
+  max-width: 94%;
+  background: #fff;
+  border-radius: 14px;
+  padding: 28px 24px;
+  box-shadow: 0 8px 30px rgba(18, 18, 40, 0.06);
+  text-align: center;
+}
+
+.login-logo img {
+  width: 140px;
+  object-fit: contain;
+  background: white; /* đảm bảo nền trắng */
+  display: inline-block;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(102,102,255,0.06);
+  margin-bottom: 6px;
+}
+
+.login-card h1 {
+  margin: 6px 0 14px 0;
+  font-size: 20px;
+  color: #222;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.login-form label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  font-size: 13px;
+  color: #555;
+  gap: 6px;
+}
+
+.login-form input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e6e8f8;
+  outline: none;
+  font-size: 14px;
+  background: #fbfbff;
+}
+
+.login-form input:focus {
+  border-color: #9aa2ff;
+  box-shadow: 0 4px 12px rgba(102, 102, 255, 0.12);
+}
+
+.login-error {
+  color: #b00020;
+  font-size: 13px;
+  text-align: left;
+}
+
+.login-btn {
+  margin-top: 6px;
+  background: linear-gradient(90deg,#6666ff,#8a7dff);
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(102,102,255,0.18);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.login-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(102,102,255,0.22); }
+
+.login-note {
+  margin-top: 12px;
+  color: #777;
+  font-size: 12px;
+}
+
+/* ===================== Header & Dashboard ===================== */
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 18px auto 6px auto;
+  padding: 0 20px;
+  width: calc(100% - 40px);
+}
+
+.hop-logo {
+  background-color: white;
+  border-radius: 16px;
+  padding: 8px 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* header actions (welcome + logout) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.welcome {
+  color: #333;
+  font-size: 14px;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid #e6e8f8;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.btn-logout:hover {
+  background: #fff8f8;
+  border-color: #f2dede;
+  color: #b00020;
+}
+
+/* Lựa chọn hàng (dropdown + filter) */
+.tuy-chon-hang {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin: 10px auto 0 auto;
+  max-width: 1200px;
+  width: calc(100% - 40px);
+  padding: 12px 20px;
+}
+
+.chon-tuan {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #d0d0ff;
+  outline: none;
+  font-size: 14px;
+  background: white;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.chon-tuan:hover {
+  border-color: #9999ff;
+  box-shadow: 0 0 4px rgba(102, 102, 255, 0.18);
+}
+
+/* Biểu đồ */
+.bieu-do-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 26px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  width: calc(100% - 40px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bieu-do-card {
+  width: 45%;
+  min-width: 300px;
+  background-color: white;
+  border-radius: 18px;
+  box-shadow: 0 6px 22px rgba(15, 15, 40, 0.04);
+  padding: 18px;
+}
+
+.bieu-do-card h2 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.bieu-do {
+  width: 100%;
+  height: 300px;
+}
+
+/* responsiveness */
+@media (max-width: 880px) {
+  .bieu-do-card { width: 100%; }
+  .header-bar { padding: 0 14px; width: calc(100% - 28px); }
+  .tuy-chon-hang { padding: 10px 14px; width: calc(100% - 28px); }
+}
